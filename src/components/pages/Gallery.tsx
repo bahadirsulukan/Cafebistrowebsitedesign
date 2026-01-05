@@ -1,106 +1,122 @@
-import { useState, useRef } from 'react';
-import { motion, AnimatePresence, useInView } from 'motion/react';
-import { X, ZoomIn, ChevronLeft, ChevronRight } from 'lucide-react';
-import { ImageWithFallback } from '../figma/ImageWithFallback';
-
-const galleryImages = [
-  {
-    id: 1,
-    src: 'https://images.unsplash.com/photo-1648808694138-6706c5efc80a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBjYWZlJTIwaW50ZXJpb3J8ZW58MXx8fHwxNzY3MjQwMjM5fDA&ixlib=rb-4.1.0&q=80&w=1080',
-    category: 'Interior',
-    title: 'Moderne Atmosphäre',
-  },
-  {
-    id: 2,
-    src: 'https://images.unsplash.com/photo-1756397481872-ed981ef72a51?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbGVnYW50JTIwcmVzdGF1cmFudCUyMGludGVyaW9yfGVufDF8fHx8MTc2NzI2MDY0OHww&ixlib=rb-4.1.0&q=80&w=1080',
-    category: 'Interior',
-    title: 'Elegante Einrichtung',
-  },
-  {
-    id: 3,
-    src: 'https://images.unsplash.com/photo-1650588825807-a4192fff2d1f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2ZmZWUlMjBzcGVjaWFsdHklMjBkcmlua3N8ZW58MXx8fHwxNzY3MzEyMTE3fDA&ixlib=rb-4.1.0&q=80&w=1080',
-    category: 'Drinks',
-    title: 'Kaffee Spezialitäten',
-  },
-  {
-    id: 4,
-    src: 'https://images.unsplash.com/photo-1669162364316-a74b2d661d1e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsYXR0ZSUyMGFydCUyMGNvZmZlZXxlbnwxfHx8fDE3NjcyODY4MDR8MA&ixlib=rb-4.1.0&q=80&w=1080',
-    category: 'Drinks',
-    title: 'Latte Art',
-  },
-  {
-    id: 5,
-    src: 'https://images.unsplash.com/photo-1685280778004-f9fcf807e30f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxicmVha2Zhc3QlMjBiaXN0cm8lMjBmb29kfGVufDF8fHx8MTc2NzMxMjExOHww&ixlib=rb-4.1.0&q=80&w=1080',
-    category: 'Food',
-    title: 'Frühstück',
-  },
-  {
-    id: 6,
-    src: 'https://images.unsplash.com/photo-1570818996995-fae698c843f2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBsdW5jaCUyMHBsYXRlfGVufDF8fHx8MTc2NzMxMjExOXww&ixlib=rb-4.1.0&q=80&w=1080',
-    category: 'Food',
-    title: 'Lunch Spezialitäten',
-  },
-  {
-    id: 7,
-    src: 'https://images.unsplash.com/photo-1737700088850-d0b53f9d39ec?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxnb3VybWV0JTIwZGVzc2VydHxlbnwxfHx8fDE3NjcyOTc0NjJ8MA&ixlib=rb-4.1.0&q=80&w=1080',
-    category: 'Food',
-    title: 'Gourmet Desserts',
-  },
-  {
-    id: 8,
-    src: 'https://images.unsplash.com/photo-1683544599381-be284dbd9abf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2NrdGFpbCUyMGRyaW5rcyUyMGJhcnxlbnwxfHx8fDE3NjczMTIxMjB8MA&ixlib=rb-4.1.0&q=80&w=1080',
-    category: 'Drinks',
-    title: 'Cocktails',
-  },
-  {
-    id: 9,
-    src: 'https://images.unsplash.com/photo-1737700089128-cbbb2dc71631?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmcmVzaCUyMHBhc3RyaWVzJTIwYmFrZXJ5fGVufDF8fHx8MTc2NzMxMjExOXww&ixlib=rb-4.1.0&q=80&w=1080',
-    category: 'Food',
-    title: 'Frische Backwaren',
-  },
-  {
-    id: 10,
-    src: 'https://images.unsplash.com/photo-1539021897569-06e9fa3c6bb9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxiYXJpc3RhJTIwbWFraW5nJTIwY29mZmVlfGVufDF8fHx8MTc2NzI2ODQ2OXww&ixlib=rb-4.1.0&q=80&w=1080',
-    category: 'Behind the Scenes',
-    title: 'Barista bei der Arbeit',
-  },
-  {
-    id: 11,
-    src: 'https://images.unsplash.com/photo-1640703935937-5e6ec134977d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyZXN0YXVyYW50JTIwdGFibGUlMjBzZXR0aW5nfGVufDF8fHx8MTc2NzI4ODI1Mnww&ixlib=rb-4.1.0&q=80&w=1080',
-    category: 'Interior',
-    title: 'Tischgedeck',
-  },
-  {
-    id: 12,
-    src: 'https://images.unsplash.com/photo-1544986581-efac024faf62?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3aW5lJTIwZ2xhc3NlcyUyMGVsZWdhbnR8ZW58MXx8fHwxNzY3MzEyNDM1fDA&ixlib=rb-4.1.0&q=80&w=1080',
-    category: 'Drinks',
-    title: 'Weinauswahl',
-  },
-];
-
-const categories = ['Alle', 'Interior', 'Food', 'Drinks', 'Behind the Scenes'];
+import { useState, useRef } from "react";
+import { motion, AnimatePresence, useInView } from "motion/react";
+import { X, ZoomIn, ChevronLeft, ChevronRight } from "lucide-react";
+import { ImageWithFallback } from "../figma/ImageWithFallback";
+import { useLanguage } from "../../contexts/LanguageContext";
 
 export function Gallery() {
-  const [selectedCategory, setSelectedCategory] = useState('Alle');
+  const { t } = useLanguage();
+  const [selectedCategory, setSelectedCategory] = useState(
+    t("gallery.categories.all")
+  );
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
 
+  const galleryImages = [
+    {
+      id: 1,
+      src: "https://images.unsplash.com/photo-1648808694138-6706c5efc80a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBjYWZlJTIwaW50ZXJpb3J8ZW58MXx8fHwxNzY3MjQwMjM5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      category: t("gallery.categories.interior"),
+      title: t("gallery.images.modernAtmosphere"),
+    },
+    {
+      id: 2,
+      src: "https://images.unsplash.com/photo-1756397481872-ed981ef72a51?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbGVnYW50JTIwcmVzdGF1cmFudCUyMGludGVyaW9yfGVufDF8fHx8MTc2NzI2MDY0OHww&ixlib=rb-4.1.0&q=80&w=1080",
+      category: t("gallery.categories.interior"),
+      title: t("gallery.images.elegantInterior"),
+    },
+    {
+      id: 3,
+      src: "https://images.unsplash.com/photo-1650588825807-a4192fff2d1f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2ZmZWUlMjBzcGVjaWFsdHklMjBkcmlua3N8ZW58MXx8fHwxNzY3MzEyMTE3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      category: t("gallery.categories.drinks"),
+      title: t("gallery.images.coffeeSpecialties"),
+    },
+    {
+      id: 4,
+      src: "https://images.unsplash.com/photo-1669162364316-a74b2d661d1e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsYXR0ZSUyMGFydCUyMGNvZmZlZXxlbnwxfHx8fDE3NjcyODY4MDR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      category: t("gallery.categories.drinks"),
+      title: t("gallery.images.latteArt"),
+    },
+    {
+      id: 5,
+      src: "https://images.unsplash.com/photo-1685280778004-f9fcf807e30f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxicmVha2Zhc3QlMjBiaXN0cm8lMjBmb29kfGVufDF8fHx8MTc2NzMxMjExOHww&ixlib=rb-4.1.0&q=80&w=1080",
+      category: t("gallery.categories.food"),
+      title: t("gallery.images.breakfast"),
+    },
+    {
+      id: 6,
+      src: "https://images.unsplash.com/photo-1570818996995-fae698c843f2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBsdW5jaCUyMHBsYXRlfGVufDF8fHx8MTc2NzMxMjExOXww&ixlib=rb-4.1.0&q=80&w=1080",
+      category: t("gallery.categories.food"),
+      title: t("gallery.images.lunchSpecialties"),
+    },
+    {
+      id: 7,
+      src: "https://images.unsplash.com/photo-1737700088850-d0b53f9d39ec?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxnb3VybWV0JTIwZGVzc2VydHxlbnwxfHx8fDE3NjcyOTc0NjJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      category: t("gallery.categories.food"),
+      title: t("gallery.images.gourmetDesserts"),
+    },
+    {
+      id: 8,
+      src: "https://images.unsplash.com/photo-1683544599381-be284dbd9abf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2NrdGFpbCUyMGRyaW5rcyUyMGJhcnxlbnwxfHx8fDE3NjczMTIxMjB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      category: t("gallery.categories.drinks"),
+      title: t("gallery.images.cocktails"),
+    },
+    {
+      id: 9,
+      src: "https://images.unsplash.com/photo-1737700089128-cbbb2dc71631?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmcmVzaCUyMHBhc3RyaWVzJTIwYmFrZXJ5fGVufDF8fHx8MTc2NzMxMjExOXww&ixlib=rb-4.1.0&q=80&w=1080",
+      category: t("gallery.categories.food"),
+      title: t("gallery.images.freshPastries"),
+    },
+    {
+      id: 10,
+      src: "https://images.unsplash.com/photo-1539021897569-06e9fa3c6bb9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxiYXJpc3RhJTIwbWFraW5nJTIwY29mZmVlfGVufDF8fHx8MTc2NzI2ODQ2OXww&ixlib=rb-4.1.0&q=80&w=1080",
+      category: t("gallery.categories.behindScenes"),
+      title: t("gallery.images.baristaWork"),
+    },
+    {
+      id: 11,
+      src: "https://images.unsplash.com/photo-1640703935937-5e6ec134977d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyZXN0YXVyYW50JTIwdGFibGUlMjBzZXR0aW5nfGVufDF8fHx8MTc2NzI4ODI1Mnww&ixlib=rb-4.1.0&q=80&w=1080",
+      category: t("gallery.categories.interior"),
+      title: t("gallery.images.tableSetting"),
+    },
+    {
+      id: 12,
+      src: "https://images.unsplash.com/photo-1544986581-efac024faf62?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3aW5lJTIwZ2xhc3NlcyUyMGVsZWdhbnR8ZW58MXx8fHwxNzY3MzEyNDM1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      category: t("gallery.categories.drinks"),
+      title: t("gallery.images.wineSelection"),
+    },
+  ];
+
+  const categories = [
+    t("gallery.categories.all"),
+    t("gallery.categories.interior"),
+    t("gallery.categories.food"),
+    t("gallery.categories.drinks"),
+    t("gallery.categories.behindScenes"),
+  ];
+
   const filteredImages =
-    selectedCategory === 'Alle'
+    selectedCategory === t("gallery.categories.all")
       ? galleryImages
       : galleryImages.filter((img) => img.category === selectedCategory);
 
   const handlePrevImage = () => {
     if (selectedImage !== null) {
-      const currentIndex = filteredImages.findIndex((img) => img.id === selectedImage);
-      const prevIndex = currentIndex > 0 ? currentIndex - 1 : filteredImages.length - 1;
+      const currentIndex = filteredImages.findIndex(
+        (img) => img.id === selectedImage
+      );
+      const prevIndex =
+        currentIndex > 0 ? currentIndex - 1 : filteredImages.length - 1;
       setSelectedImage(filteredImages[prevIndex].id);
     }
   };
 
   const handleNextImage = () => {
     if (selectedImage !== null) {
-      const currentIndex = filteredImages.findIndex((img) => img.id === selectedImage);
-      const nextIndex = currentIndex < filteredImages.length - 1 ? currentIndex + 1 : 0;
+      const currentIndex = filteredImages.findIndex(
+        (img) => img.id === selectedImage
+      );
+      const nextIndex =
+        currentIndex < filteredImages.length - 1 ? currentIndex + 1 : 0;
       setSelectedImage(filteredImages[nextIndex].id);
     }
   };
@@ -124,11 +140,17 @@ export function Gallery() {
           transition={{ duration: 0.8 }}
           className="relative z-10 text-center px-4 max-w-4xl"
         >
-          <h1 className="text-5xl md:text-7xl mb-6" style={{ color: 'var(--cafe-cream)' }}>
-            Galerie
+          <h1
+            className="text-5xl md:text-7xl mb-6"
+            style={{ color: "var(--cafe-cream)" }}
+          >
+            {t("gallery.hero.title")}
           </h1>
-          <p className="text-xl md:text-2xl" style={{ color: 'var(--cafe-sand)' }}>
-            Entdecken Sie die Welt der AeroLounge
+          <p
+            className="text-xl md:text-2xl"
+            style={{ color: "var(--cafe-sand)" }}
+          >
+            {t("gallery.hero.subtitle")}
           </p>
         </motion.div>
       </section>
@@ -181,9 +203,9 @@ function CategoryFilter({
               style={{
                 backgroundColor:
                   selectedCategory === category
-                    ? 'var(--cafe-gold)'
-                    : 'var(--cafe-cream)',
-                color: 'var(--cafe-brown-darkest)',
+                    ? "var(--cafe-gold)"
+                    : "var(--cafe-cream)",
+                color: "var(--cafe-brown-darkest)",
               }}
             >
               {category}
@@ -203,7 +225,7 @@ function GalleryGrid({
   onImageClick: (id: number) => void;
 }) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
     <section ref={ref} className="py-24 bg-white">
@@ -231,7 +253,7 @@ function GalleryGrid({
                   alt={image.title}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
-                
+
                 {/* Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <div className="absolute bottom-0 left-0 right-0 p-6">
@@ -239,14 +261,14 @@ function GalleryGrid({
                     <span
                       className="text-sm px-3 py-1 rounded-full inline-block"
                       style={{
-                        backgroundColor: 'var(--cafe-gold)',
-                        color: 'var(--cafe-brown-darkest)',
+                        backgroundColor: "var(--cafe-gold)",
+                        color: "var(--cafe-brown-darkest)",
                       }}
                     >
                       {image.category}
                     </span>
                   </div>
-                  
+
                   {/* Zoom Icon */}
                   <motion.div
                     initial={{ scale: 0 }}
@@ -255,9 +277,12 @@ function GalleryGrid({
                   >
                     <div
                       className="w-16 h-16 rounded-full flex items-center justify-center"
-                      style={{ backgroundColor: 'var(--cafe-gold)' }}
+                      style={{ backgroundColor: "var(--cafe-gold)" }}
                     >
-                      <ZoomIn className="w-8 h-8" style={{ color: 'var(--cafe-brown-darkest)' }} />
+                      <ZoomIn
+                        className="w-8 h-8"
+                        style={{ color: "var(--cafe-brown-darkest)" }}
+                      />
                     </div>
                   </motion.div>
                 </div>
@@ -293,7 +318,7 @@ function Lightbox({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           className="fixed inset-0 z-50 flex items-center justify-center p-4"
-          style={{ backgroundColor: 'rgba(0, 0, 0, 0.95)' }}
+          style={{ backgroundColor: "rgba(0, 0, 0, 0.95)" }}
           onClick={onClose}
         >
           {/* Close Button */}
@@ -302,9 +327,12 @@ function Lightbox({
             whileTap={{ scale: 0.9 }}
             onClick={onClose}
             className="absolute top-4 right-4 w-12 h-12 rounded-full flex items-center justify-center z-50"
-            style={{ backgroundColor: 'var(--cafe-gold)' }}
+            style={{ backgroundColor: "var(--cafe-gold)" }}
           >
-            <X className="w-6 h-6" style={{ color: 'var(--cafe-brown-darkest)' }} />
+            <X
+              className="w-6 h-6"
+              style={{ color: "var(--cafe-brown-darkest)" }}
+            />
           </motion.button>
 
           {/* Previous Button */}
@@ -316,9 +344,12 @@ function Lightbox({
               onPrev();
             }}
             className="absolute left-4 w-12 h-12 rounded-full flex items-center justify-center z-50"
-            style={{ backgroundColor: 'var(--cafe-gold)' }}
+            style={{ backgroundColor: "var(--cafe-gold)" }}
           >
-            <ChevronLeft className="w-6 h-6" style={{ color: 'var(--cafe-brown-darkest)' }} />
+            <ChevronLeft
+              className="w-6 h-6"
+              style={{ color: "var(--cafe-brown-darkest)" }}
+            />
           </motion.button>
 
           {/* Next Button */}
@@ -330,9 +361,12 @@ function Lightbox({
               onNext();
             }}
             className="absolute right-4 w-12 h-12 rounded-full flex items-center justify-center z-50"
-            style={{ backgroundColor: 'var(--cafe-gold)' }}
+            style={{ backgroundColor: "var(--cafe-gold)" }}
           >
-            <ChevronRight className="w-6 h-6" style={{ color: 'var(--cafe-brown-darkest)' }} />
+            <ChevronRight
+              className="w-6 h-6"
+              style={{ color: "var(--cafe-brown-darkest)" }}
+            />
           </motion.button>
 
           {/* Image */}
@@ -351,15 +385,16 @@ function Lightbox({
             <div
               className="absolute bottom-0 left-0 right-0 p-6 rounded-b-2xl"
               style={{
-                background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)',
+                background:
+                  "linear-gradient(to top, rgba(0,0,0,0.8), transparent)",
               }}
             >
               <h3 className="text-white text-xl mb-2">{currentImage.title}</h3>
               <span
                 className="text-sm px-3 py-1 rounded-full inline-block"
                 style={{
-                  backgroundColor: 'var(--cafe-gold)',
-                  color: 'var(--cafe-brown-darkest)',
+                  backgroundColor: "var(--cafe-gold)",
+                  color: "var(--cafe-brown-darkest)",
                 }}
               >
                 {currentImage.category}

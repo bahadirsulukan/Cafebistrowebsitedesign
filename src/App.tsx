@@ -1,18 +1,20 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Toaster } from 'sonner@2.0.3';
-import { LanguageProvider } from './contexts/LanguageContext';
-import { Navbar } from './components/Navbar';
-import { Footer } from './components/Footer';
-import { Home } from './components/pages/Home';
-import { About } from './components/pages/About';
-import { Menu } from './components/pages/Menu';
-import { Gallery } from './components/pages/Gallery';
-import { Contact } from './components/pages/Contact';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Toaster } from "sonner@2.0.3";
+import { LanguageProvider } from "./contexts/LanguageContext";
+import { Navbar } from "./components/Navbar";
+import { Footer } from "./components/Footer";
+import { ScrollToTop } from "./components/ScrollToTop";
+import { Home } from "./components/pages/Home";
+import { About } from "./components/pages/About";
+import { Menu } from "./components/pages/Menu";
+import { Gallery } from "./components/pages/Gallery";
+import { Contact } from "./components/pages/Contact";
 
 export default function App() {
   return (
     <LanguageProvider>
       <Router>
+        <ScrollToTop />
         <div className="min-h-screen flex flex-col">
           <Navbar />
           <main className="flex-1">
