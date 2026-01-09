@@ -16,7 +16,8 @@ export function Menu() {
       if (element) {
         setTimeout(() => {
           const yOffset = -100; // Offset für Navbar
-          const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+          const y =
+            element.getBoundingClientRect().top + window.pageYOffset + yOffset;
           window.scrollTo({ top: y, behavior: "smooth" });
         }, 100);
       }
