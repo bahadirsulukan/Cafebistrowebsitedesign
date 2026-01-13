@@ -1,7 +1,7 @@
 
   # Café & Bistro Website Design
 
-  This is a code bundle for Café & Bistro Website Design. The original project is available at https://www.figma.com/design/ED3afZnGmZVmTa8u7YcjcW/Caf%C3%A9---Bistro-Website-Design.
+  This is a code bundle for Café & Bistro Website Design. The original project is available at https://aerolounge.vercel.app
 
   ## Running the code
 
