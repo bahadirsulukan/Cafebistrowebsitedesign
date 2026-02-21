@@ -164,6 +164,13 @@ export function Footer() {
             </a>
           </div>
         </div>
+
+        <p
+          className="mt-6 text-center text-sm"
+          style={{ color: "var(--cafe-sand)" }}
+        >
+          {t("footer.madeWithLove")}
+        </p>
       </div>
     </footer>
   );

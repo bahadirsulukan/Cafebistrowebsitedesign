@@ -10,20 +10,6 @@ export function Menu() {
   const { t } = useLanguage();
   const location = useLocation();
 
-  useEffect(() => {
-    if (location.hash === "#categories") {
-      const element = document.getElementById("categories");
-      if (element) {
-        setTimeout(() => {
-          const yOffset = -100; // Offset für Navbar
-          const y =
-            element.getBoundingClientRect().top + window.pageYOffset + yOffset;
-          window.scrollTo({ top: y, behavior: "smooth" });
-        }, 100);
-      }
-    }
-  }, [location]);
-
   type Category = {
     id: string;
     name: string;
@@ -58,6 +44,27 @@ export function Menu() {
         "https://images.unsplash.com/photo-1683544599381-be284dbd9abf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2NrdGFpbCUyMGRyaW5rcyUyMGJhcnxlbnwxfHx8fDE3NjczMTIxMjB8MA&ixlib=rb-4.1.0&q=80&w=1080",
     },
   ];
+
+  useEffect(() => {
+    const categoryParam = new URLSearchParams(location.search).get("category");
+    const validCategoryIds = ["breakfast", "lunch", "drinks"];
+
+    if (categoryParam && validCategoryIds.includes(categoryParam)) {
+      setActiveCategory(categoryParam);
+    }
+
+    if (location.hash === "#categories") {
+      const element = document.getElementById("categories");
+      if (element) {
+        setTimeout(() => {
+          const yOffset = -100;
+          const y =
+            element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+          window.scrollTo({ top: y, behavior: "smooth" });
+        }, 100);
+      }
+    }
+  }, [location]);
 
   type MenuItem = {
     name: string;
@@ -212,6 +219,12 @@ function MenuItemsSection({ activeCategory }: { activeCategory: string }) {
     lunch: t("menu.items.lunch") as any,
     drinks: t("menu.items.drinks") as any,
   };
+  const featuredIndexesByCategory: Record<string, number[]> = {
+    breakfast: [0],
+    lunch: [5],
+    drinks: [0, 3],
+  };
+
   const items = menuItems[activeCategory as keyof typeof menuItems];
   const categories: Category[] = [
     {
@@ -283,79 +296,85 @@ function MenuItemsSection({ activeCategory }: { activeCategory: string }) {
 
             {/* Menu Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-              {items.map((item: any, index: number) => (
-                <motion.div
-                  key={item.name}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="group relative p-6 rounded-2xl hover:scale-105 transition-all duration-300 h-full flex flex-col"
-                  style={{
-                    backgroundColor: item.featured
-                      ? "var(--cafe-brown-medium)"
-                      : "var(--cafe-sand)",
-                  }}
-                >
-                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 mb-3">
-                    <h3
-                      className="text-xl font-semibold flex-1"
-                      style={{
-                        color: item.featured
-                          ? "var(--cafe-cream)"
-                          : "var(--cafe-brown-darkest)",
-                      }}
-                    >
-                      {item.name}
-                    </h3>
-                    <span
-                      className="text-xl font-bold sm:ml-4"
-                      style={{
-                        color: item.featured
-                          ? "var(--cafe-cream)"
-                          : "var(--cafe-brown-darkest)",
-                      }}
-                    >
-                      €{item.price}
-                    </span>
-                  </div>
-                  <p
-                    className="text-sm leading-relaxed mb-3"
+              {items.map((item: any, index: number) => {
+                const isFeatured =
+                  Boolean(item.featured) ||
+                  featuredIndexesByCategory[activeCategory]?.includes(index);
+
+                return (
+                  <motion.div
+                    key={item.name}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    className="group relative p-6 rounded-2xl hover:scale-105 transition-all duration-300 h-full flex flex-col"
                     style={{
-                      color: item.featured
-                        ? "var(--cafe-sand)"
-                        : "var(--cafe-brown)",
+                      backgroundColor: isFeatured
+                        ? "var(--cafe-brown-medium)"
+                        : "var(--cafe-sand)",
                     }}
                   >
-                    {item.description}
-                  </p>
-                  {item.featured && (
-                    <div className="flex justify-between items-end">
-                      <div
-                        className="inline-block px-3 py-1 rounded-full text-xs font-medium"
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 mb-3">
+                      <h3
+                        className="text-xl font-semibold flex-1"
                         style={{
-                          backgroundColor: "var(--cafe-brown-darkest)",
-                          color: "var(--cafe-cream)",
+                          color: isFeatured
+                            ? "var(--cafe-cream)"
+                            : "var(--cafe-brown-darkest)",
                         }}
                       >
-                        {t("menu.houseSpecial")}
-                      </div>
-                      <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{
-                          duration: 3,
-                          repeat: Infinity,
-                          ease: "linear",
+                        {item.name}
+                      </h3>
+                      <span
+                        className="text-xl font-bold sm:ml-4"
+                        style={{
+                          color: isFeatured
+                            ? "var(--cafe-cream)"
+                            : "var(--cafe-brown-darkest)",
                         }}
                       >
-                        <Sparkles
-                          className="w-5 h-5"
-                          style={{ color: "var(--cafe-gold)" }}
-                        />
-                      </motion.div>
+                        €{item.price}
+                      </span>
                     </div>
-                  )}
-                </motion.div>
-              ))}
+                    <p
+                      className="text-sm leading-relaxed mb-3"
+                      style={{
+                        color: isFeatured
+                          ? "var(--cafe-sand)"
+                          : "var(--cafe-brown)",
+                      }}
+                    >
+                      {item.description}
+                    </p>
+                    {isFeatured && (
+                      <div className="flex justify-between items-end">
+                        <div
+                          className="inline-block px-3 py-1 rounded-full text-xs font-medium"
+                          style={{
+                            backgroundColor: "var(--cafe-brown-darkest)",
+                            color: "var(--cafe-cream)",
+                          }}
+                        >
+                          {t("menu.houseSpecial")}
+                        </div>
+                        <motion.div
+                          animate={{ rotate: 360 }}
+                          transition={{
+                            duration: 3,
+                            repeat: Infinity,
+                            ease: "linear",
+                          }}
+                        >
+                          <Sparkles
+                            className="w-5 h-5"
+                            style={{ color: "var(--cafe-gold)" }}
+                          />
+                        </motion.div>
+                      </div>
+                    )}
+                  </motion.div>
+                );
+              })}
             </div>
           </motion.div>
         </AnimatePresence>

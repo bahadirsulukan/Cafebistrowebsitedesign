@@ -51,6 +51,7 @@ export function Home() {
 
   const menuCategories = [
     {
+      id: "breakfast",
       title: t("home.menu.breakfast.title"),
       description: t("home.menu.breakfast.description"),
       icon: Coffee,
@@ -58,6 +59,7 @@ export function Home() {
       color: "var(--cafe-cream)",
     },
     {
+      id: "lunch",
       title: t("home.menu.lunch.title"),
       description: t("home.menu.lunch.description"),
       icon: Utensils,
@@ -65,6 +67,7 @@ export function Home() {
       color: "var(--cafe-gold)",
     },
     {
+      id: "drinks",
       title: t("home.menu.drinks.title"),
       description: t("home.menu.drinks.description"),
       icon: Wine,
@@ -322,8 +325,11 @@ function MenuCategoriesSection({ menuCategories }: { menuCategories: any[] }) {
               transition={{ duration: 0.8, delay: index * 0.2 }}
               className="group cursor-pointer"
             >
-              <Link to="/menu">
-                <div className="relative h-72 sm:h-80 rounded-2xl overflow-hidden mb-6">
+              <Link to={`/menu?category=${category.id}#categories`}>
+                <div
+                  className="relative rounded-2xl overflow-hidden mb-6"
+                  style={{ height: "20rem" }}
+                >
                   <ImageWithFallback
                     src={category.image}
                     alt={category.title}

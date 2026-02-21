@@ -60,15 +60,13 @@ const translations = {
       },
       features: {
         title: "Warum AeroLounge?",
-        subtitle:
-          "Perfekt für Geschäftsreisende, internationale Gäste und alle, die Qualität schätzen",
+        subtitle: "Von früh bis spät – genießen Sie kulinarische Highlights",
         location: {
           title: "Perfekte Lage",
           description: "Nur 5 Minuten vom Flughafen entfernt",
         },
         hours: {
           title: "Lange Öffnungszeiten",
-          description: "Täglich von früh bis spät für Sie da",
         },
         quality: {
           title: "Premium Qualität",
@@ -392,6 +390,7 @@ const translations = {
       privacy: "Datenschutz",
       imprint: "Impressum",
       terms: "AGB",
+      madeWithLove: "Diese Website wurde von 'sulukan' mit ❤️ erstellt",
     },
   },
   en: {
@@ -740,6 +739,7 @@ const translations = {
       privacy: "Privacy",
       imprint: "Imprint",
       terms: "Terms",
+      madeWithLove: "This website was made by 'sulukan' with ❤️",
     },
   },
   fr: {
@@ -1087,6 +1087,7 @@ const translations = {
       privacy: "Confidentialité",
       imprint: "Mentions Légales",
       terms: "CGV",
+      madeWithLove: "Ce site a été créé par 'sulukan' avec ❤️",
     },
   },
   es: {
@@ -1438,6 +1439,7 @@ const translations = {
       privacy: "Privacidad",
       imprint: "Aviso Legal",
       terms: "Términos",
+      madeWithLove: "Este sitio fue creado por 'sulukan' con ❤️",
     },
   },
   tr: {
@@ -1784,6 +1786,7 @@ const translations = {
       privacy: "Gizlilik",
       imprint: "Künye",
       terms: "Şartlar",
+      madeWithLove: "Bu web sitesi 'sulukan' tarafından ❤️ ile yapıldı",
     },
   },
   ar: {
@@ -2120,6 +2123,7 @@ const translations = {
       privacy: "الخصوصية",
       imprint: "معلومات قانونية",
       terms: "الشروط",
+      madeWithLove: "تم إنشاء هذا الموقع بواسطة 'sulukan' مع ❤️",
     },
   },
 };
