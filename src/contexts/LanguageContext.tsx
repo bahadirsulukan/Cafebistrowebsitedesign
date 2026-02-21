@@ -9,7 +9,7 @@ interface LanguageContextType {
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(
-  undefined
+  undefined,
 );
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
@@ -151,7 +151,7 @@ const translations = {
           stat: "20+",
           statLabel: "Hotels",
         },
-        address: "Flughafenstraße 123, Frankfurt",
+        address: "Nordendstraße 14a, 64546 Mörfelden-Walldorf",
         addressDesc:
           "Zentral gelegen zwischen Flughafen und City – leicht erreichbar, perfekt positioniert",
       },
@@ -328,7 +328,7 @@ const translations = {
       },
       info: {
         address: "Adresse",
-        addressText: "Flughafenstraße 123, Frankfurt",
+        addressText: "Nordendstraße 14a, 64546 Mörfelden-Walldorf",
         phone: "Telefon",
         phoneText: "+49 69 123 456 78",
         email: "E-Mail",
@@ -505,7 +505,7 @@ const translations = {
           stat: "20+",
           statLabel: "Hotels",
         },
-        address: "Flughafenstraße 123, Frankfurt",
+        address: "Nordendstraße 14a, 64546 Mörfelden-Walldorf",
         addressDesc:
           "Centrally located between airport and city – easily accessible, perfectly positioned",
       },
@@ -678,7 +678,7 @@ const translations = {
       },
       info: {
         address: "Address",
-        addressText: "Flughafenstraße 123, Frankfurt",
+        addressText: "Nordendstraße 14a, 64546 Mörfelden-Walldorf",
         phone: "Phone",
         phoneText: "+49 69 123 456 78",
         email: "Email",
@@ -853,7 +853,7 @@ const translations = {
           stat: "20+",
           statLabel: "Hôtels",
         },
-        address: "Flughafenstraße 123,\n60549 Francfort-sur-le-Main",
+        address: "Nordendstraße 14a,\n64546 Mörfelden-Walldorf",
         addressDesc:
           "Situé au centre entre l'aéroport et la ville – facilement accessible, parfaitement positionné",
       },
@@ -1025,7 +1025,7 @@ const translations = {
       },
       info: {
         address: "Adresse",
-        addressText: "Flughafenstraße 123\n60549 Francfort-sur-le-Main",
+        addressText: "Nordendstraße 14a\n64546 Mörfelden-Walldorf",
         phone: "Téléphone",
         phoneText: "+49 69 123 456 78",
         email: "Email",
@@ -1201,7 +1201,7 @@ const translations = {
           stat: "20+",
           statLabel: "Hoteles",
         },
-        address: "Flughafenstraße 123, Frankfurt",
+        address: "Nordendstraße 14a, 64546 Mörfelden-Walldorf",
         addressDesc:
           "Ubicado en el centro entre el aeropuerto y la ciudad: fácilmente accesible, perfectamente posicionado",
       },
@@ -1376,7 +1376,7 @@ const translations = {
       },
       info: {
         address: "Dirección",
-        addressText: "Flughafenstraße 123, Frankfurt",
+        addressText: "Nordendstraße 14a, 64546 Mörfelden-Walldorf",
         phone: "Teléfono",
         phoneText: "+49 69 123 456 78",
         email: "Email",
@@ -1551,7 +1551,7 @@ const translations = {
           stat: "20+",
           statLabel: "Otel",
         },
-        address: "Flughafenstraße 123, Frankfurt",
+        address: "Nordendstraße 14a, 64546 Mörfelden-Walldorf",
         addressDesc:
           "Havaalanı ve şehir arasında merkezi konumda – kolayca erişilebilir, mükemmel konumlandırılmış",
       },
@@ -1725,7 +1725,7 @@ const translations = {
       },
       info: {
         address: "Adres",
-        addressText: "Flughafenstraße 123, Frankfurt",
+        addressText: "Nordendstraße 14a, 64546 Mörfelden-Walldorf",
         phone: "Telefon",
         phoneText: "+49 69 123 456 78",
         email: "E-posta",
@@ -1896,7 +1896,7 @@ const translations = {
           stat: "+20",
           statLabel: "فندق",
         },
-        address: "Flughafenstraße 123,\n60549 فرانكفورت، ألمانيا",
+        address: "Nordendstraße 14a,\n64546 Mörfelden-Walldorf",
         addressDesc: "موقع مركزي بين المطار والمدينة - سهل الوصول، موضع مثالي",
       },
       mission: {
@@ -2063,7 +2063,7 @@ const translations = {
       },
       info: {
         address: "العنوان",
-        addressText: "Flughafenstraße 123\n60549 فرانكفورت، ألمانيا",
+        addressText: "Nordendstraße 14a\n64546 Mörfelden-Walldorf",
         phone: "الهاتف",
         phoneText: "+49 69 123 456 78",
         email: "البريد الإلكتروني",
