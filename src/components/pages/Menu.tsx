@@ -92,13 +92,13 @@ export function Menu() {
           className="relative z-10 text-center px-4 max-w-4xl"
         >
           <h1
-            className="text-5xl md:text-7xl mb-6"
+            className="text-4xl md:text-7xl mb-6"
             style={{ color: "var(--cafe-cream)" }}
           >
             {t("menu.hero.title")}
           </h1>
           <p
-            className="text-xl md:text-2xl"
+            className="text-lg md:text-2xl"
             style={{ color: "var(--cafe-sand)" }}
           >
             {t("menu.hero.subtitle")}
@@ -144,11 +144,11 @@ function CategorySelector({
     <section
       id="categories"
       ref={ref}
-      className="sticky top-20 z-40 py-8 backdrop-blur-lg"
+      className="sticky top-16 sm:top-20 z-40 py-6 sm:py-8 mt-8 backdrop-blur-lg"
       style={{ backgroundColor: "var(--cafe-brown-darkest)/95" }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row justify-center gap-4">
+        <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
           {categories.map((category: any, index: number) => (
             <motion.button
               key={category.id}
@@ -156,7 +156,7 @@ function CategorySelector({
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               onClick={() => setActiveCategory(category.id)}
-              className="relative px-8 py-4 rounded-full flex items-center justify-center gap-3 transition-all duration-300"
+              className="relative px-8 sm:px-10 py-4 sm:py-5 rounded-full flex items-center justify-center gap-2 sm:gap-3 text-base sm:text-lg transition-all duration-300 min-w-[160px] sm:min-w-[200px]"
               style={{
                 backgroundColor:
                   activeCategory === category.id
@@ -242,7 +242,7 @@ function MenuItemsSection({ activeCategory }: { activeCategory: string }) {
   const category = categories.find((c) => c.id === activeCategory);
 
   return (
-    <section ref={ref} className="py-24 bg-white">
+    <section ref={ref} className="py-8 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <AnimatePresence mode="wait">
           <motion.div
@@ -257,7 +257,7 @@ function MenuItemsSection({ activeCategory }: { activeCategory: string }) {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={isInView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.8 }}
-              className="relative h-96 rounded-3xl overflow-hidden mb-16"
+              className="relative h-64 sm:h-96 rounded-3xl overflow-hidden mb-8 sm:mb-10"
             >
               <ImageWithFallback
                 src={category?.image || ""}
@@ -265,36 +265,38 @@ function MenuItemsSection({ activeCategory }: { activeCategory: string }) {
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-8">
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-3 sm:gap-4">
                   {category?.icon && (
                     <div
-                      className="w-16 h-16 rounded-full flex items-center justify-center"
+                      className="w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center"
                       style={{ backgroundColor: category.color }}
                     >
-                      <category.icon className="w-8 h-8 text-[var(--cafe-brown-darkest)]" />
+                      <category.icon className="w-6 h-6 sm:w-8 sm:h-8 text-[var(--cafe-brown-darkest)]" />
                     </div>
                   )}
-                  <h2 className="text-4xl text-white">{category?.name}</h2>
+                  <h2 className="text-2xl sm:text-4xl text-white">
+                    {category?.name}
+                  </h2>
                 </div>
               </div>
             </motion.div>
 
             {/* Menu Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
               {items.map((item: any, index: number) => (
                 <motion.div
                   key={item.name}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="group relative p-6 rounded-2xl hover:scale-105 transition-all duration-300"
+                  className="group relative p-6 rounded-2xl hover:scale-105 transition-all duration-300 h-full flex flex-col"
                   style={{
                     backgroundColor: item.featured
                       ? "var(--cafe-brown-medium)"
                       : "var(--cafe-sand)",
                   }}
                 >
-                  <div className="flex justify-between items-start mb-3">
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 mb-3">
                     <h3
                       className="text-xl font-semibold flex-1"
                       style={{
@@ -306,7 +308,7 @@ function MenuItemsSection({ activeCategory }: { activeCategory: string }) {
                       {item.name}
                     </h3>
                     <span
-                      className="text-xl font-bold ml-4"
+                      className="text-xl font-bold sm:ml-4"
                       style={{
                         color: item.featured
                           ? "var(--cafe-cream)"
@@ -402,17 +404,20 @@ function SpecialOffersSection() {
           className="text-center mb-16"
         >
           <h2
-            className="text-4xl md:text-5xl mb-4"
+            className="text-3xl md:text-5xl mb-4"
             style={{ color: "var(--cafe-cream)" }}
           >
             {t("menu.specials.title")}
           </h2>
-          <p className="text-lg" style={{ color: "var(--cafe-sand)" }}>
+          <p
+            className="text-base sm:text-lg"
+            style={{ color: "var(--cafe-sand)" }}
+          >
             {t("menu.specials.subtitle")}
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
           {offers.map((offer, index) => (
             <motion.div
               key={index}
@@ -420,7 +425,7 @@ function SpecialOffersSection() {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: index * 0.2 }}
               whileHover={{ scale: 1.05 }}
-              className="p-8 rounded-2xl text-center"
+              className="p-8 rounded-2xl text-center h-full flex flex-col"
               style={{ backgroundColor: "var(--cafe-gold)" }}
             >
               <motion.div

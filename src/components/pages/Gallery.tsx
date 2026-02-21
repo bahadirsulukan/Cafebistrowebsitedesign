@@ -4,10 +4,17 @@ import { X, ZoomIn, ChevronLeft, ChevronRight } from "lucide-react";
 import { ImageWithFallback } from "../figma/ImageWithFallback";
 import { useLanguage } from "../../contexts/LanguageContext";
 
+type GalleryImage = {
+  id: number;
+  src: string;
+  category: string;
+  title: string;
+};
+
 export function Gallery() {
   const { t } = useLanguage();
   const [selectedCategory, setSelectedCategory] = useState(
-    t("gallery.categories.all")
+    t("gallery.categories.all"),
   );
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
 
@@ -102,7 +109,7 @@ export function Gallery() {
   const handlePrevImage = () => {
     if (selectedImage !== null) {
       const currentIndex = filteredImages.findIndex(
-        (img) => img.id === selectedImage
+        (img) => img.id === selectedImage,
       );
       const prevIndex =
         currentIndex > 0 ? currentIndex - 1 : filteredImages.length - 1;
@@ -113,7 +120,7 @@ export function Gallery() {
   const handleNextImage = () => {
     if (selectedImage !== null) {
       const currentIndex = filteredImages.findIndex(
-        (img) => img.id === selectedImage
+        (img) => img.id === selectedImage,
       );
       const nextIndex =
         currentIndex < filteredImages.length - 1 ? currentIndex + 1 : 0;
@@ -141,13 +148,13 @@ export function Gallery() {
           className="relative z-10 text-center px-4 max-w-4xl"
         >
           <h1
-            className="text-5xl md:text-7xl mb-6"
+            className="text-4xl md:text-7xl mb-6"
             style={{ color: "var(--cafe-cream)" }}
           >
             {t("gallery.hero.title")}
           </h1>
           <p
-            className="text-xl md:text-2xl"
+            className="text-lg md:text-2xl"
             style={{ color: "var(--cafe-sand)" }}
           >
             {t("gallery.hero.subtitle")}
@@ -190,16 +197,16 @@ function CategoryFilter({
   setSelectedCategory: (category: string) => void;
 }) {
   return (
-    <section className="py-12 bg-white sticky top-20 z-40 shadow-sm">
+    <section className="py-8 sm:py-12 bg-white sticky top-16 sm:top-20 z-40 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-wrap justify-center gap-4">
+        <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
           {categories.map((category) => (
             <motion.button
               key={category}
               onClick={() => setSelectedCategory(category)}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="px-6 py-3 rounded-full transition-all duration-300"
+              className="px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg transition-all duration-300 min-w-[140px] sm:min-w-[180px]"
               style={{
                 backgroundColor:
                   selectedCategory === category
@@ -221,7 +228,7 @@ function GalleryGrid({
   images,
   onImageClick,
 }: {
-  images: typeof galleryImages;
+  images: GalleryImage[];
   onImageClick: (id: number) => void;
 }) {
   const ref = useRef(null);
@@ -236,9 +243,9 @@ function GalleryGrid({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6"
           >
-            {images.map((image, index) => (
+            {images.map((image: GalleryImage, index: number) => (
               <motion.div
                 key={image.id}
                 initial={{ opacity: 0, y: 20 }}
@@ -276,11 +283,11 @@ function GalleryGrid({
                     className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                   >
                     <div
-                      className="w-16 h-16 rounded-full flex items-center justify-center"
+                      className="w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center"
                       style={{ backgroundColor: "var(--cafe-gold)" }}
                     >
                       <ZoomIn
-                        className="w-8 h-8"
+                        className="w-7 h-7 sm:w-8 sm:h-8"
                         style={{ color: "var(--cafe-brown-darkest)" }}
                       />
                     </div>
@@ -302,13 +309,15 @@ function Lightbox({
   onPrev,
   onNext,
 }: {
-  images: typeof galleryImages;
+  images: GalleryImage[];
   selectedImage: number | null;
   onClose: () => void;
   onPrev: () => void;
   onNext: () => void;
 }) {
-  const currentImage = images.find((img) => img.id === selectedImage);
+  const currentImage = images.find(
+    (img: GalleryImage) => img.id === selectedImage,
+  );
 
   return (
     <AnimatePresence>
@@ -326,11 +335,11 @@ function Lightbox({
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={onClose}
-            className="absolute top-4 right-4 w-12 h-12 rounded-full flex items-center justify-center z-50"
+            className="absolute top-4 right-4 sm:top-6 sm:right-6 w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center z-50"
             style={{ backgroundColor: "var(--cafe-gold)" }}
           >
             <X
-              className="w-6 h-6"
+              className="w-7 h-7 sm:w-8 sm:h-8"
               style={{ color: "var(--cafe-brown-darkest)" }}
             />
           </motion.button>
@@ -343,11 +352,11 @@ function Lightbox({
               e.stopPropagation();
               onPrev();
             }}
-            className="absolute left-4 w-12 h-12 rounded-full flex items-center justify-center z-50"
+            className="absolute left-4 sm:left-6 w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center z-50"
             style={{ backgroundColor: "var(--cafe-gold)" }}
           >
             <ChevronLeft
-              className="w-6 h-6"
+              className="w-7 h-7 sm:w-8 sm:h-8"
               style={{ color: "var(--cafe-brown-darkest)" }}
             />
           </motion.button>
@@ -360,11 +369,11 @@ function Lightbox({
               e.stopPropagation();
               onNext();
             }}
-            className="absolute right-4 w-12 h-12 rounded-full flex items-center justify-center z-50"
+            className="absolute right-4 sm:right-6 w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center z-50"
             style={{ backgroundColor: "var(--cafe-gold)" }}
           >
             <ChevronRight
-              className="w-6 h-6"
+              className="w-7 h-7 sm:w-8 sm:h-8"
               style={{ color: "var(--cafe-brown-darkest)" }}
             />
           </motion.button>
@@ -375,30 +384,34 @@ function Lightbox({
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
             onClick={(e) => e.stopPropagation()}
-            className="relative max-w-6xl max-h-[90vh] w-full"
+            className="relative w-full max-w-4xl mx-auto flex items-center justify-center"
           >
-            <ImageWithFallback
-              src={currentImage.src}
-              alt={currentImage.title}
-              className="w-full h-full object-contain rounded-2xl"
-            />
-            <div
-              className="absolute bottom-0 left-0 right-0 p-6 rounded-b-2xl"
-              style={{
-                background:
-                  "linear-gradient(to top, rgba(0,0,0,0.8), transparent)",
-              }}
-            >
-              <h3 className="text-white text-xl mb-2">{currentImage.title}</h3>
-              <span
-                className="text-sm px-3 py-1 rounded-full inline-block"
+            <div className="relative w-full h-[70vh] sm:h-[80vh] flex items-center justify-center bg-black/50 rounded-2xl overflow-hidden">
+              <ImageWithFallback
+                src={currentImage.src}
+                alt={currentImage.title}
+                className="w-full h-full object-contain"
+              />
+              <div
+                className="absolute bottom-0 left-0 right-0 p-6 sm:p-8"
                 style={{
-                  backgroundColor: "var(--cafe-gold)",
-                  color: "var(--cafe-brown-darkest)",
+                  background:
+                    "linear-gradient(to top, rgba(0,0,0,0.9), transparent)",
                 }}
               >
-                {currentImage.category}
-              </span>
+                <h3 className="text-white text-xl sm:text-2xl mb-3 font-semibold">
+                  {currentImage.title}
+                </h3>
+                <span
+                  className="text-sm sm:text-base px-4 py-2 rounded-full inline-block font-medium"
+                  style={{
+                    backgroundColor: "var(--cafe-gold)",
+                    color: "var(--cafe-brown-darkest)",
+                  }}
+                >
+                  {currentImage.category}
+                </span>
+              </div>
             </div>
           </motion.div>
         </motion.div>

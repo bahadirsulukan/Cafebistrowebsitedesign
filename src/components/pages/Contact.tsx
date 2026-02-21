@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, useInView } from "motion/react";
 import { MapPin, Phone, Mail, Clock, Send, Calendar } from "lucide-react";
-import { toast } from "sonner@2.0.3";
+import { toast } from "sonner";
 import { useLanguage } from "../../contexts/LanguageContext";
 import { useLocation } from "react-router-dom";
 
@@ -46,7 +46,7 @@ export function Contact() {
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    >,
   ) => {
     setFormData({
       ...formData,
@@ -57,7 +57,10 @@ export function Contact() {
   return (
     <div className="overflow-x-hidden">
       {/* Hero Section */}
-      <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
+      <section
+        className="relative flex items-center justify-center overflow-hidden"
+        style={{ height: "calc(60vh - 2cm)" }}
+      >
         <div className="absolute inset-0 bg-gradient-to-b from-[var(--cafe-brown-darkest)] to-[var(--cafe-brown-dark)]" />
 
         <motion.div
@@ -67,13 +70,13 @@ export function Contact() {
           className="relative z-10 text-center px-4 max-w-4xl"
         >
           <h1
-            className="text-5xl md:text-7xl mb-6"
+            className="text-4xl md:text-7xl mb-6"
             style={{ color: "var(--cafe-cream)" }}
           >
             {t("contact.hero.title")}
           </h1>
           <p
-            className="text-xl md:text-2xl"
+            className="text-lg md:text-2xl"
             style={{ color: "var(--cafe-sand)" }}
           >
             {t("contact.hero.subtitle")}
@@ -85,9 +88,13 @@ export function Contact() {
       <ContactInfoSection />
 
       {/* Contact Form & Map */}
-      <div className="bg-white" id="reservation">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+      <div
+        className="bg-white -mt-1"
+        id="reservation"
+        style={{ paddingTop: "5rem", paddingBottom: "5rem" }}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             {/* Reservation Form */}
             <ReservationForm
               formData={formData}
@@ -142,18 +149,21 @@ function ContactInfoSection() {
   return (
     <section
       ref={ref}
-      className="py-24"
-      style={{ backgroundColor: "var(--cafe-brown-dark)" }}
+      style={{
+        backgroundColor: "var(--cafe-brown-dark)",
+        paddingTop: "4.75rem",
+        paddingBottom: "6rem",
+      }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
           {contactInfo.map((info, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 50 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: index * 0.1 }}
-              className="text-center p-8 rounded-2xl"
+              className="text-center p-4 sm:p-6 lg:p-8 rounded-2xl"
               style={{ backgroundColor: "var(--cafe-brown-medium)" }}
             >
               <motion.div
@@ -203,9 +213,11 @@ function ReservationForm({
       initial={{ opacity: 0, x: -50 }}
       animate={isInView ? { opacity: 1, x: 0 } : {}}
       transition={{ duration: 0.8 }}
+      className="w-full"
+      style={{ maxWidth: "570px", margin: "0 auto" }}
     >
       <h2
-        className="text-4xl mb-4"
+        className="text-3xl sm:text-4xl mb-4"
         style={{ color: "var(--cafe-brown-darkest)" }}
       >
         {t("contact.form.title")}
@@ -423,10 +435,11 @@ function MapSection() {
       initial={{ opacity: 0, x: 50 }}
       animate={isInView ? { opacity: 1, x: 0 } : {}}
       transition={{ duration: 0.8 }}
-      className="h-full min-h-[600px]"
+      className="w-full"
+      style={{ maxWidth: "570px", margin: "0 auto" }}
     >
       <h2
-        className="text-4xl mb-4"
+        className="text-3xl sm:text-4xl mb-4"
         style={{ color: "var(--cafe-brown-darkest)" }}
       >
         {t("contact.map.title")}
@@ -435,7 +448,10 @@ function MapSection() {
         {t("contact.map.subtitle")}
       </p>
 
-      <div className="rounded-2xl overflow-hidden shadow-xl h-[500px]">
+      <div
+        className="rounded-2xl overflow-hidden shadow-xl"
+        style={{ width: "570px", height: "330px", maxWidth: "100%" }}
+      >
         <iframe
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2561.5746857384635!2d8.5709!3d50.0379!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTDCsDAyJzE2LjQiTiA4wrAzNCcxNS4yIkU!5e0!3m2!1sen!2sde!4v1234567890"
           width="100%"
@@ -502,8 +518,12 @@ function OpeningHoursSection() {
   return (
     <section
       ref={ref}
-      className="py-24"
-      style={{ backgroundColor: "var(--cafe-gold)" }}
+      className="mt-8"
+      style={{
+        backgroundColor: "var(--cafe-gold)",
+        paddingTop: "4.75rem",
+        paddingBottom: "4.75rem",
+      }}
     >
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
@@ -513,20 +533,23 @@ function OpeningHoursSection() {
           className="text-center"
         >
           <h2
-            className="text-4xl md:text-5xl mb-12"
-            style={{ color: "var(--cafe-brown-darkest)" }}
+            className="text-3xl md:text-5xl mb-12 sm:mb-14"
+            style={{
+              color: "var(--cafe-brown-darkest)",
+              transform: "translateY(-0.5cm)",
+            }}
           >
             {t("contact.schedule.title")}
           </h2>
 
-          <div className="space-y-4">
+          <div className="space-y-4 mt-2">
             {schedule.map((item, index) => (
               <motion.div
                 key={item.day}
                 initial={{ opacity: 0, x: -20 }}
                 animate={isInView ? { opacity: 1, x: 0 } : {}}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="flex justify-between items-center p-4 rounded-xl"
+                className="flex flex-col sm:flex-row sm:justify-between sm:items-center items-start gap-2 p-4 rounded-xl"
                 style={{
                   backgroundColor: item.highlight
                     ? "var(--cafe-brown-darkest)"
@@ -534,7 +557,7 @@ function OpeningHoursSection() {
                 }}
               >
                 <span
-                  className="text-lg"
+                  className="text-base sm:text-lg"
                   style={{
                     color: item.highlight
                       ? "var(--cafe-cream)"
@@ -544,7 +567,7 @@ function OpeningHoursSection() {
                   {item.day}
                 </span>
                 <span
-                  className="text-lg"
+                  className="text-base sm:text-lg"
                   style={{
                     color: item.highlight
                       ? "var(--cafe-gold)"
@@ -557,7 +580,10 @@ function OpeningHoursSection() {
             ))}
           </div>
 
-          <p className="mt-8 text-lg" style={{ color: "var(--cafe-brown)" }}>
+          <p
+            className="mt-8 text-base sm:text-lg"
+            style={{ color: "var(--cafe-brown)" }}
+          >
             {t("contact.schedule.note")}
           </p>
         </motion.div>

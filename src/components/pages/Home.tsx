@@ -126,7 +126,7 @@ export function Home() {
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.8 }}
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl mb-6 tracking-tight"
+            className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl mb-6 tracking-tight"
             style={{ color: "var(--cafe-cream)" }}
           >
             {t("home.hero.title")}
@@ -138,7 +138,7 @@ export function Home() {
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.8 }}
-            className="text-lg sm:text-xl md:text-2xl mb-12 max-w-2xl mx-auto"
+            className="text-base sm:text-xl md:text-2xl mb-8 sm:mb-12 max-w-2xl mx-auto"
             style={{ color: "var(--cafe-sand)" }}
           >
             {t("home.hero.subtitle")}
@@ -150,13 +150,13 @@ export function Home() {
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.8 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center"
+            className="mt-[13rem] sm:mt-0 flex flex-col sm:flex-row gap-4 justify-center"
           >
             <Link to="/menu#categories">
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-8 py-4 rounded-full flex items-center gap-2 transition-all duration-300"
+                className="w-full sm:w-auto px-8 py-4 rounded-full flex items-center justify-center gap-2 transition-all duration-300"
                 style={{
                   backgroundColor: "var(--cafe-gold)",
                   color: "var(--cafe-brown-darkest)",
@@ -170,7 +170,7 @@ export function Home() {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-8 py-4 rounded-full border-2 transition-all duration-300"
+                className="w-full sm:w-auto px-8 py-4 rounded-full border-2 transition-all duration-300"
                 style={{
                   borderColor: "var(--cafe-cream)",
                   color: "var(--cafe-cream)",
@@ -239,13 +239,13 @@ function FeaturesSection({ features }: { features: any[] }) {
           className="text-center mb-16"
         >
           <h2
-            className="text-4xl md:text-5xl mb-4"
+            className="text-3xl md:text-5xl mb-4"
             style={{ color: "var(--cafe-cream)" }}
           >
             {t("home.features.title")}
           </h2>
           <p
-            className="text-lg max-w-2xl mx-auto"
+            className="text-base sm:text-lg max-w-2xl mx-auto"
             style={{ color: "var(--cafe-sand)" }}
           >
             {t("home.features.subtitle")}
@@ -259,7 +259,7 @@ function FeaturesSection({ features }: { features: any[] }) {
               initial={{ opacity: 0, y: 50 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: index * 0.2 }}
-              className="p-8 rounded-2xl text-center group hover:scale-105 transition-transform duration-300"
+              className="p-6 sm:p-8 rounded-2xl text-center group hover:scale-105 transition-transform duration-300"
               style={{ backgroundColor: "var(--cafe-brown-medium)" }}
             >
               <motion.div
@@ -300,13 +300,13 @@ function MenuCategoriesSection({ menuCategories }: { menuCategories: any[] }) {
           className="text-center mb-16"
         >
           <h2
-            className="text-4xl md:text-5xl mb-4"
+            className="text-3xl md:text-5xl mb-4"
             style={{ color: "var(--cafe-brown-darkest)" }}
           >
             {t("home.menu.title")}
           </h2>
           <p
-            className="text-lg max-w-2xl mx-auto"
+            className="text-base sm:text-lg max-w-2xl mx-auto"
             style={{ color: "var(--cafe-brown)" }}
           >
             {t("home.menu.subtitle")}
@@ -323,7 +323,7 @@ function MenuCategoriesSection({ menuCategories }: { menuCategories: any[] }) {
               className="group cursor-pointer"
             >
               <Link to="/menu">
-                <div className="relative h-80 rounded-2xl overflow-hidden mb-6">
+                <div className="relative h-72 sm:h-80 rounded-2xl overflow-hidden mb-6">
                   <ImageWithFallback
                     src={category.image}
                     alt={category.title}
@@ -379,20 +379,20 @@ function GalleryPreviewSection() {
           className="text-center mb-16"
         >
           <h2
-            className="text-4xl md:text-5xl mb-4"
+            className="text-3xl md:text-5xl mb-4"
             style={{ color: "var(--cafe-cream)" }}
           >
             {t("home.gallery.title")}
           </h2>
           <p
-            className="text-lg max-w-2xl mx-auto"
+            className="text-base sm:text-lg max-w-2xl mx-auto"
             style={{ color: "var(--cafe-sand)" }}
           >
             {t("home.gallery.subtitle")}
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-12">
           {galleryImages.map((image, index) => (
             <motion.div
               key={index}
@@ -400,7 +400,7 @@ function GalleryPreviewSection() {
               animate={isInView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               whileHover={{ scale: 1.05 }}
-              className="relative h-64 rounded-xl overflow-hidden cursor-pointer"
+              className="relative h-44 sm:h-64 rounded-xl overflow-hidden cursor-pointer"
             >
               <ImageWithFallback
                 src={image}
@@ -450,13 +450,13 @@ function CTASection() {
         className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10"
       >
         <h2
-          className="text-4xl md:text-5xl mb-6"
+          className="text-3xl md:text-5xl mb-6"
           style={{ color: "var(--cafe-brown-darkest)" }}
         >
           {t("home.cta.title")}
         </h2>
         <p
-          className="text-lg mb-8 max-w-2xl mx-auto"
+          className="text-base sm:text-lg mb-8 max-w-2xl mx-auto"
           style={{ color: "var(--cafe-brown)" }}
         >
           {t("home.cta.subtitle")}
@@ -465,7 +465,7 @@ function CTASection() {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="px-10 py-5 rounded-full text-lg flex items-center gap-3 mx-auto transition-all duration-300"
+            className="px-8 sm:px-10 py-4 sm:py-5 rounded-full text-base sm:text-lg flex items-center gap-3 mx-auto transition-all duration-300"
             style={{
               backgroundColor: "var(--cafe-brown-darkest)",
               color: "var(--cafe-cream)",
